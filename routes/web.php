@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ReviewController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +19,11 @@ use App\Http\Controllers\BookController;
 Route::get('/', function () {
     return redirect()->route('books.index');
 });
-Route::resource('books', BookController::class);
+
+// only use and not disabled index and show route
+Route::resource('books', BookController::class)
+    ->only(['index', 'show']);
+
+Route::resource('books.reviews', ReviewController::class)
+    ->scoped(['review' => 'book'])
+    ->only(['create', 'store']);
